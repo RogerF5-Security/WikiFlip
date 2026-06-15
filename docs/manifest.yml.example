@@ -8,6 +8,6 @@ short_description: Offline cybersecurity dictionary for Flipper Zero
 description: "@README.md"
 changelog: "@./docs/changelog.md"
 screenshots:
-  - screenshots/wikiFlip_categories.png
-  - screenshots/wikiFlip_owasp.png
-  - screenshots/wikiFlip_definition.png
+  - screenshots/Screenshot-20260615-104416.png
+  - screenshots/Screenshot-20260615-104441.png
+  - screenshots/Screenshot-20260615-104508.png
