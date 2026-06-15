@@ -5,7 +5,7 @@ sourcecode:
     commit_sha: REPLACE_WITH_SOURCE_COMMIT_SHA
 
 short_description: Offline cybersecurity dictionary for Flipper Zero
-description: "@README.md"
+description: "@./docs/catalog_description.md"
 changelog: "@./docs/changelog.md"
 screenshots:
   - screenshots/Screenshot-20260615-104416.png
