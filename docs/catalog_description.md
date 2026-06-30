@@ -10,6 +10,7 @@ The app works fully offline and stores all entries as static C data, so it does 
 
 - 100 cybersecurity terms
 - Full OWASP Top 10:2025 category coverage
+- English UI and definitions by default
 - Native Flipper Zero submenu navigation
 - Scrollable long-form definitions
 - Offline static dictionary

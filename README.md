@@ -1,24 +1,24 @@
 # WikiFlip
 
-WikiFlip es una aplicacion FAP para Flipper Zero que implementa un diccionario offline de ciberseguridad. La version 1.1 usa datos estaticos en C para compilar sin microSD, parsers externos ni conectividad.
+WikiFlip is a Flipper Zero FAP application that provides an offline cybersecurity dictionary. Version 1.2 uses static C data, so it builds without microSD parsing, external files, or network access at runtime.
 
-## Contenido
+## Content
 
-WikiFlip incluye 100 terminos distribuidos asi:
+WikiFlip includes 100 English-language terms:
 
 ```text
-Protocolos              12
+Protocols               12
 OWASP Top 10:2025       10
 NIST                    10
 CVE                     12
-BlueTeam                12
-RedTeam                 12
+Blue Team               12
+Red Team                12
 Threat Intelligence     10
-HardwareHacking         12
+Hardware Hacking        12
 ISO                     10
 ```
 
-La categoria OWASP contiene el Top 10:2025 completo:
+The OWASP category includes the full OWASP Top 10:2025:
 
 ```text
 A01:2025 - Broken Access Control
@@ -33,7 +33,7 @@ A09:2025 - Security Logging and Alerting Failures
 A10:2025 - Mishandling of Exceptional Conditions
 ```
 
-## Arquitectura
+## Architecture
 
 ```text
 WikiFlipApp
@@ -46,170 +46,156 @@ WikiFlipApp
   WikiFlipCategory* current_category
 ```
 
-La GUI usa `ViewDispatcher` con tres vistas:
+The GUI uses `ViewDispatcher` with three views:
 
 ```text
-WikiFlipViewCategories   -> Submenu principal de categorias
-WikiFlipViewTerms        -> Submenu de terminos por categoria
-WikiFlipViewDefinition   -> Widget con scroll vertical
+WikiFlipViewCategories   -> main category submenu
+WikiFlipViewTerms        -> term submenu for selected category
+WikiFlipViewDefinition   -> scrollable definition widget
 ```
 
-Las definiciones largas se muestran con `widget_add_text_scroll_element()`. El scroll se controla con D-pad Up/Down de forma nativa.
+Long definitions are rendered with `widget_add_text_scroll_element()`. D-pad Up/Down provides native vertical scrolling.
 
-## Mapa de navegacion
+## Navigation
 
 ```text
-Abrir app
-  -> Categorias
-      OK: abrir terminos de categoria
-      Back: salir
+Open app
+  -> Categories
+      OK: open category terms
+      Back: exit
 
-  -> Terminos
-      OK: abrir definicion
-      Back: volver a categorias
+  -> Terms
+      OK: open definition
+      Back: return to categories
 
-  -> Definicion
-      Up/Down: scroll vertical
-      Back: volver a terminos
+  -> Definition
+      Up/Down: scroll
+      Back: return to terms
 ```
 
-## Como anadir terminos
+## Adding Terms
 
-1. Abrir `wikiflip.c`.
-2. Ubicar el array de la categoria:
+1. Open `wikiflip.c`.
+2. Find the target category array:
 
 ```c
-static const WikiFlipTerm wikiflip_redteam_terms[] = {
+static const WikiFlipTerm wikiflip_red_team_terms[] = {
     {
         .title = "C2",
-        .definition = "Definicion...",
+        .definition = "Definition...",
     },
 };
 ```
 
-3. Agregar una entrada:
+3. Add a new entry:
 
 ```c
 {
-    .title = "Nuevo Termino",
+    .title = "New Term",
     .definition =
-        "Definicion tecnica larga. Puede usar saltos de linea con \\n\\n "
-        "y literales concatenados para mantener el codigo legible.",
+        "Long technical definition. Use \\n\\n for paragraph breaks "
+        "and adjacent string literals to keep the source readable.",
 },
 ```
 
-`WIKIFLIP_ARRAY_SIZE()` calcula el contador en compilacion.
+`WIKIFLIP_ARRAY_SIZE()` calculates the term count at compile time.
 
-## Como anadir categorias
+## Adding Categories
 
-1. Crear un array:
+1. Create a new array:
 
 ```c
-static const WikiFlipTerm wikiflip_forense_terms[] = {
+static const WikiFlipTerm wikiflip_forensics_terms[] = {
     {
         .title = "Timeline",
-        .definition = "Secuencia temporal de eventos para analisis forense.",
+        .definition = "Chronological sequence of events used in forensic analysis.",
     },
 };
 ```
 
-2. Registrar la categoria en `wikiflip_categories[]`:
+2. Register it in `wikiflip_categories[]`:
 
 ```c
 {
-    .name = "Forense",
-    .terms = wikiflip_forense_terms,
-    .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_forense_terms),
+    .name = "Forensics",
+    .terms = wikiflip_forensics_terms,
+    .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_forensics_terms),
 },
 ```
 
-## Compilacion con uFBT
+## Building With uFBT
 
-Desde la raiz del proyecto:
+From the project root:
 
 ```powershell
 ufbt
 ```
 
-Salida esperada:
+Expected output:
 
 ```text
 dist/wikiflip.fap
 ```
 
-Para instalar y lanzar en un Flipper conectado por USB:
+Install and launch on a USB-connected Flipper:
 
 ```powershell
 ufbt launch
 ```
 
-## Compilacion dentro de firmware
+## Building Inside Firmware
 
-Copiar el proyecto dentro de `applications_user` del firmware oficial, Momentum u otro fork compatible con FBT:
+Copy the project into `applications_user` for official firmware, Momentum, or another FBT-compatible fork:
 
 ```powershell
-Copy-Item -Recurse "C:\Users\R0G3R\Documents\Tools\Flipper Zero\WikiFlip" "C:\ruta\firmware\applications_user\WikiFlip"
+Copy-Item -Recurse "C:\Users\R0G3R\Documents\Tools\Flipper Zero\WikiFlip" "C:\path\firmware\applications_user\WikiFlip"
 ```
 
-Compilar:
+Build:
 
 ```powershell
 .\fbt.cmd build APPSRC=applications_user\WikiFlip
 ```
 
-Lanzar:
+Launch:
 
 ```powershell
 .\fbt.cmd launch APPSRC=applications_user\WikiFlip
 ```
 
-Build directo por App ID:
+Build by App ID:
 
 ```powershell
 .\fbt.cmd fap_wikiflip
 ```
 
-## Icono
+## Icon
 
-El icono FAP esta en:
+The FAP icon is:
 
 ```text
 images/wikiflip_10px.png
 ```
 
-Es un PNG 10x10 px, 1-bit, con silueta de libro y letras `WF`.
+It is a 10x10 px, 1-bit PNG with a compact book silhouette and `WF` lettering.
 
-## Publicacion en Flipper Lab
+## Flipper Lab Submission
 
-Flipper Lab no recibe el binario manualmente para publicarlo en el catalogo. La publicacion se hace mediante pull request al repositorio oficial `flipperdevices/flipper-application-catalog`, apuntando a un repositorio GitHub publico que contenga esta app.
-
-Guia local:
+Flipper Lab apps are published through the official `flipperdevices/flipper-application-catalog` repository. See:
 
 ```text
 docs/flipper_lab_submission.md
 ```
 
-Plantilla de manifest de catalogo:
+Catalog manifest template:
 
 ```text
 docs/manifest.yml.example
 ```
 
-Requisitos importantes:
+## Memory Lifecycle
 
-```text
-Repositorio GitHub publico
-Licencia open source
-application.fam con appid, version, categoria e icono
-README.md
-docs/changelog.md
-screenshots reales tomadas con qFlipper
-manifest.yml en applications/Tools/wikiflip/ dentro del catalogo oficial
-```
-
-## Ciclo de vida de memoria
-
-Inicializacion:
+Allocation:
 
 ```text
 malloc(WikiFlipApp)
@@ -222,7 +208,7 @@ view_dispatcher_add_view()
 view_dispatcher_attach_to_gui()
 ```
 
-Liberacion:
+Free:
 
 ```text
 view_dispatcher_remove_view()
@@ -234,4 +220,4 @@ furi_record_close(RECORD_GUI)
 free(WikiFlipApp)
 ```
 
-Este orden evita que el dispatcher mantenga referencias a vistas ya liberadas.
+This order prevents the dispatcher from retaining references to already-freed views.
