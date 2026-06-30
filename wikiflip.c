@@ -1556,22 +1556,22 @@ static const WikiFlipCategory wikiflip_categories_es[] = {
         .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_cve_terms_es),
     },
     {
-        .name = "BlueTeam",
+        .name = "Equipo Azul",
         .terms = wikiflip_blue_team_terms_es,
         .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_blue_team_terms_es),
     },
     {
-        .name = "RedTeam",
+        .name = "Equipo Rojo",
         .terms = wikiflip_red_team_terms_es,
         .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_red_team_terms_es),
     },
     {
-        .name = "Threat Intelligence",
+        .name = "Intel Amenazas",
         .terms = wikiflip_threat_intelligence_terms_es,
         .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_threat_intelligence_terms_es),
     },
     {
-        .name = "HardwareHacking",
+        .name = "Hardware Hacking",
         .terms = wikiflip_hardware_terms_es,
         .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_hardware_terms_es),
     },
