@@ -36,10 +36,10 @@ dist/wikiflip.fap
 
 ```powershell
 git add application.fam wikiflip.c wikiflip.h README.md LICENSE docs images screenshots
-git commit -m "Release WikiFlip v1.2"
-git tag -a v1.2 -m "WikiFlip v1.2"
+git commit -m "Release WikiFlip v1.3"
+git tag -a v1.3 -m "WikiFlip v1.3"
 git push origin main
-git push origin v1.2
+git push origin v1.3
 ```
 
 Record the source commit:
@@ -68,12 +68,12 @@ applications/Tools/wikiflip/manifest.yml
 ```powershell
 git clone https://github.com/YOUR_USERNAME/flipper-application-catalog.git
 cd flipper-application-catalog
-git checkout -b YOUR_USERNAME_wikiflip_1.2
+git checkout -b YOUR_USERNAME_wikiflip_1.3
 mkdir applications\Tools\wikiflip
 copy C:\path\manifest.yml applications\Tools\wikiflip\manifest.yml
 git add applications\Tools\wikiflip\manifest.yml
-git commit -m "Add WikiFlip v1.2"
-git push origin YOUR_USERNAME_wikiflip_1.2
+git commit -m "Add WikiFlip v1.3"
+git push origin YOUR_USERNAME_wikiflip_1.3
 ```
 
 Open the pull request against:

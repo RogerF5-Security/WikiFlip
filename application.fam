@@ -10,5 +10,5 @@ App(
     fap_category="Tools",
     fap_description="Offline cybersecurity dictionary for Flipper Zero",
     fap_author="Roger Arana",
-    fap_version="1.2",
+    fap_version="1.3",
 )

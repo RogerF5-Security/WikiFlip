@@ -1,10 +1,12 @@
 # WikiFlip
 
-WikiFlip is a Flipper Zero FAP application that provides an offline cybersecurity dictionary. Version 1.2 uses static C data, so it builds without microSD parsing, external files, or network access at runtime.
+WikiFlip is a Flipper Zero FAP application that provides an offline cybersecurity dictionary. Version 1.3 uses static C data, so it builds without microSD parsing, external files, or network access at runtime.
+
+English is the default language. Spanish is available from the in-app `Settings` menu.
 
 ## Content
 
-WikiFlip includes 100 English-language terms:
+WikiFlip includes 100 terms in English and the same 100 terms in Spanish:
 
 ```text
 Protocols               12
@@ -16,6 +18,7 @@ Red Team                12
 Threat Intelligence     10
 Hardware Hacking        12
 ISO                     10
+Settings                Language selector
 ```
 
 The OWASP category includes the full OWASP Top 10:2025:
@@ -41,16 +44,19 @@ WikiFlipApp
   ViewDispatcher*
   Submenu* categories_menu
   Submenu* terms_menu
+  Submenu* settings_menu
   Widget* definition_widget
   FuriString* definition_buffer
+  WikiFlipLanguage language
   WikiFlipCategory* current_category
 ```
 
-The GUI uses `ViewDispatcher` with three views:
+The GUI uses `ViewDispatcher` with four views:
 
 ```text
 WikiFlipViewCategories   -> main category submenu
 WikiFlipViewTerms        -> term submenu for selected category
+WikiFlipViewSettings     -> language selector submenu
 WikiFlipViewDefinition   -> scrollable definition widget
 ```
 
@@ -62,7 +68,12 @@ Long definitions are rendered with `widget_add_text_scroll_element()`. D-pad Up/
 Open app
   -> Categories
       OK: open category terms
+      Settings: open language selector
       Back: exit
+
+  -> Settings
+      OK: choose English or Spanish
+      Back: return to categories
 
   -> Terms
       OK: open definition
@@ -76,10 +87,10 @@ Open app
 ## Adding Terms
 
 1. Open `wikiflip.c`.
-2. Find the target category array:
+2. Find the target category arrays for both languages:
 
 ```c
-static const WikiFlipTerm wikiflip_red_team_terms[] = {
+static const WikiFlipTerm wikiflip_red_team_terms_en[] = {
     {
         .title = "C2",
         .definition = "Definition...",
@@ -87,7 +98,16 @@ static const WikiFlipTerm wikiflip_red_team_terms[] = {
 };
 ```
 
-3. Add a new entry:
+```c
+static const WikiFlipTerm wikiflip_red_team_terms_es[] = {
+    {
+        .title = "C2",
+        .definition = "Definicion...",
+    },
+};
+```
+
+3. Add the matching entry to both arrays:
 
 ```c
 {
@@ -102,10 +122,10 @@ static const WikiFlipTerm wikiflip_red_team_terms[] = {
 
 ## Adding Categories
 
-1. Create a new array:
+1. Create one array per language:
 
 ```c
-static const WikiFlipTerm wikiflip_forensics_terms[] = {
+static const WikiFlipTerm wikiflip_forensics_terms_en[] = {
     {
         .title = "Timeline",
         .definition = "Chronological sequence of events used in forensic analysis.",
@@ -113,13 +133,13 @@ static const WikiFlipTerm wikiflip_forensics_terms[] = {
 };
 ```
 
-2. Register it in `wikiflip_categories[]`:
+2. Register the English category in `wikiflip_categories_en[]` and the Spanish category in `wikiflip_categories_es[]`:
 
 ```c
 {
     .name = "Forensics",
-    .terms = wikiflip_forensics_terms,
-    .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_forensics_terms),
+    .terms = wikiflip_forensics_terms_en,
+    .term_count = WIKIFLIP_ARRAY_SIZE(wikiflip_forensics_terms_en),
 },
 ```
 
@@ -202,6 +222,7 @@ malloc(WikiFlipApp)
 furi_record_open(RECORD_GUI)
 view_dispatcher_alloc()
 submenu_alloc()
+submenu_alloc(settings_menu)
 widget_alloc()
 furi_string_alloc()
 view_dispatcher_add_view()
@@ -213,6 +234,7 @@ Free:
 ```text
 view_dispatcher_remove_view()
 widget_free()
+submenu_free(settings_menu)
 submenu_free()
 view_dispatcher_free()
 furi_string_free()
